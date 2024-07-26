@@ -88,31 +88,4 @@ public actor TokenManager {
         // Token 刷新的实现代码
         return ""
     }
-    
-    /// 调用 Keychain Manager 的方法
-    /// - Parameter data: JSON 实例，会将 data 中 accessToken 字段提取并保存
-    ///
-    /// - Author: GH
-    public static func saveAccessToken(_ data: JSON) {
-        if let accessToken = data["accessToken"].string {
-            KeychainManager.saveAccessTokenToKeychain(accessToken)
-#if DEBUG
-            print("Access Token: \(accessToken)")
-            print("---Saved successfully!---")
-#endif
-        }
-    }
-    /// 调用 Keychain Manager 的方法
-    /// - Parameter data: JSON 实例，会将 data 中 refreshToken 字段提取并保存
-    ///
-    /// - Author: GH
-    public static func saveRefreshToken(_ data: JSON) {
-        if let refreshToken = data["refreshToken"].string {
-            KeychainManager.saveRefreshTokenToKeychain(refreshToken)
-#if DEBUG
-            print("Refresh Token: \(refreshToken)")
-            print("---Saved successfully!---")
-#endif
-        }
-    }
 }

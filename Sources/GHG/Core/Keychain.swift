@@ -15,14 +15,10 @@ public struct KeychainManager {
     /// - Author: GH
     public static func saveAccessTokenToKeychain(_ accessToken: String) {
         KeychainSwift().set(accessToken, forKey: "AccessToken")
-    }
-    
-    /// 从 Keychain 中读取 Access Token
-    /// - Returns: accessToken(String)
-    ///
-    /// - Author: GH
-    public static func getAccessTokenFromKeychain() -> String? {
-        return KeychainSwift().get("AccessToken")
+#if DEBUG
+        print("Access Token: \(accessToken)")
+        print("---Saved successfully!---")
+#endif
     }
     
     /// 保存 Refresh Token 至 Keychain
@@ -31,6 +27,18 @@ public struct KeychainManager {
     /// - Author: GH
     public static func saveRefreshTokenToKeychain(_ refreshToken: String) {
         KeychainSwift().set(refreshToken, forKey: "RefreshToken")
+#if DEBUG
+        print("Refresh Token: \(refreshToken)")
+        print("---Saved successfully!---")
+#endif
+    }
+    
+    /// 从 Keychain 中读取 Access Token
+    /// - Returns: accessToken(String)
+    ///
+    /// - Author: GH
+    public static func getAccessTokenFromKeychain() -> String? {
+        return KeychainSwift().get("AccessToken")
     }
     
     /// 从 Keychain 中读取 Refresh Token
@@ -56,6 +64,10 @@ public struct KeychainManager {
     /// - Author: GH
     public static func saveDeviceTokenToKeychain(_ deviceToken: String) {
         KeychainSwift().set(deviceToken, forKey: "DeviceToken")
+#if DEBUG
+        print("Device Token: \(deviceToken)")
+        print("---Saved successfully!---")
+#endif
     }
     
     /// 从 Keychain 中读取 Device Token
@@ -79,6 +91,10 @@ public struct KeychainManager {
     /// - Author: GH
     public static func saveUUID(_ UUID: String) {
         KeychainSwift().set(UUID, forKey: "UUID")
+#if DEBUG
+        print("UUID: \(UUID)")
+        print("---Saved successfully!---")
+#endif
     }
     
     /// 从 Keychain 中读取 UUID
