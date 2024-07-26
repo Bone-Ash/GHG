@@ -57,15 +57,15 @@ public final class CustomLoggerPlugin: PluginType {
 #if DEBUG
         if let httpRequest = request.request {
             print("----Request Start----")
-            print("----Send Request----")
+            print("Send Request:")
             print(httpRequest.url?.absoluteString ?? "nil")
-            print("----Method----")
+            print("Method:")
             print(httpRequest.httpMethod ?? "nil")
-            print("----Headers----")
+            print("Headers:")
             print(httpRequest.allHTTPHeaderFields ?? "nil")
             
             if let body = httpRequest.httpBody, let bodyString = String(data: body, encoding: .utf8) {
-                print("----Body----")
+                print("Body:")
                 print(bodyString)
             }
             print("----Request End----")
@@ -79,15 +79,15 @@ public final class CustomLoggerPlugin: PluginType {
         print("----Response Start----")
         switch result {
         case .success(let response):
-            print("Received response(\(response.statusCode)) from: \(response.response?.url?.absoluteString ?? "")")
+            print("Received response(\(response.statusCode)) \nFrom: \(response.response?.url?.absoluteString ?? "")")
             
             if let responseString = String(data: response.data, encoding: .utf8) {
-                print("----Response Body----")
+                print("Response Body:")
                 print(responseString)
             }
             
         case .failure(let error):
-            print("----Error----")
+            print("Error:")
             print(error)
         }
         print("----Response End----")
