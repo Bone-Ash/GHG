@@ -10,7 +10,6 @@ import CryptoSwift
 
 /// `CryptoManager` 结构体提供了加密操作的封装方法。
 public struct CryptoManager {
-    
     /// 非对称密钥生成函数
     /// - Parameters:
     ///   - publicTag: 公钥标识
@@ -129,9 +128,7 @@ public struct CryptoManager {
     public static func hmacSHA256(_ message: String, secret: String) -> String? {
         do {
             let hmac = try HMAC(key: secret.bytes, variant: .sha2(.sha256)).authenticate(Array(message.utf8))
-            
             let hmacData = Data(hmac)
-            
             let base64UrlEncoded = hmacData.base64UrlEncodedString()
             
             return base64UrlEncoded

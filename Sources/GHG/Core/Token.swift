@@ -115,11 +115,4 @@ public actor TokenManager {
 #endif
         }
     }
-    
-    /// 发送 Device Token 至后端
-    ///
-    /// - Author: GH
-    public func bindingDeviceToken(_ token: String) {
-        // 实现发送设备令牌至后端的代码
-    }
 }

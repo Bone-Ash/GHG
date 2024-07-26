@@ -61,10 +61,10 @@ public class ToastManager {
     /// - Parameters:
     ///   - title: Toast 的标题
     ///   - subTitle: Toast 的副标题，可选
-    public func HUDToast(title: String, subTitle: String? = nil) {
+    public func HUDToast(successful: Bool = true, title: String, subTitle: String? = nil) {
         self.hud = AlertToast(
             displayMode: .hud,
-            type: .complete(.green),
+            type: successful ? .complete(.green) : .error(.red),
             title: title,
             subTitle: subTitle
         )
