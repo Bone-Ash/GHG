@@ -7,7 +7,8 @@
 
 import SwiftUI
 
-public struct ShakeEffect: @preconcurrency GeometryEffect {
+@preconcurrency
+public struct ShakeEffect: GeometryEffect {
     /// 震动的幅度
     public var amount: CGFloat = 10
     /// 每单位时间的震动次数
