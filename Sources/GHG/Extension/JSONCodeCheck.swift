@@ -18,22 +18,16 @@ import SwiftyJSON
 ///
 /// - Author: GH
 @MainActor public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFeedBack: Bool = false, successAction: (_ data: JSON) -> Void, failureAction: (() -> Void)? = nil) {
-    let condition = ["code": "0"]
+    let condition = ["code": "200"]
     let key = condition.keys.first!
     let value = condition.values.first!
     
     if json[key].stringValue == value {
         if successFeedback {
             Hap.success()
-            // ToastManager.shared.completeToast(title: json["message"].stringValue)
+//             ToastManager.shared.completeToast(title: json["message"].stringValue)
         }
-#if DEBUG
-        print("---Successful---")
-        print("Code: \(json[key].stringValue)")
-        print("Message: \(json["message"].stringValue)")
-        print(json["data"])
-        print("---Done---")
-#endif
+
         successAction(json["data"])
     } else {
         if failureFeedBack { Hap.error() }
@@ -41,7 +35,7 @@ import SwiftyJSON
         print("Error message: \n\(json["message"])")
 #endif
         // 显示错误的 Toast
-        // ToastManager.shared.errorToast(title: json["message"].stringValue)
+         ToastManager.shared.errorToast(title: json["message"].stringValue)
         failureAction?()
     }
 }
