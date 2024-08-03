@@ -32,7 +32,9 @@ import SwiftyJSON
     } else {
         if failureFeedBack { Hap.error() }
 #if DEBUG
-        print("Error message: \n\(json["message"])")
+        if !json["message"].stringValue.isEmpty {
+            print("Error message: \n\(json["message"])")
+        }
 #endif
         // 显示错误的 Toast
          ToastManager.shared.errorToast(title: json["message"].stringValue)
