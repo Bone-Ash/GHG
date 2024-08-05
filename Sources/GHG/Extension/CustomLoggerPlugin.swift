@@ -6,6 +6,8 @@
 //
 
 import Moya
+import SwiftyJSON
+import Foundation
 
 public final class CustomLoggerPlugin: PluginType {
     public init() {}
@@ -20,9 +22,9 @@ public final class CustomLoggerPlugin: PluginType {
             print("Headers:")
             print(httpRequest.allHTTPHeaderFields ?? "nil")
             
-            if let body = httpRequest.httpBody, let bodyString = String(data: body, encoding: .utf8) {
-                print("Body:")
-                print(bodyString)
+            if let body = httpRequest.httpBody {
+                print("Request Body:")
+                print(formatJSONData(body) ?? "nil")
             }
         }
 #endif
@@ -35,11 +37,9 @@ public final class CustomLoggerPlugin: PluginType {
         case .success(let response):
             print("Received response(\(response.statusCode))")
             
-            if let responseString = String(data: response.data, encoding: .utf8) {
-                if !responseString.isEmpty {
-                    print("Response Body:")
-                    print(responseString)
-                }
+            if !response.data.isEmpty {
+                print("Response Body:")
+                print(formatJSONData(response.data) ?? "nil")
             }
             
         case .failure(let error):
@@ -48,5 +48,10 @@ public final class CustomLoggerPlugin: PluginType {
         }
         print("----Response End----")
 #endif
+    }
+    
+    private func formatJSONData(_ data: Data) -> String? {
+        let json = try? JSON(data: data)
+        return json?.rawString(options: .prettyPrinted)
     }
 }
