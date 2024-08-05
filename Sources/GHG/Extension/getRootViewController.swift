@@ -1,5 +1,5 @@
 //
-//  GetRootVC.swift
+//  getRootViewController.swift
 //  Monut
 //
 //  Created by GH on 7/23/24.

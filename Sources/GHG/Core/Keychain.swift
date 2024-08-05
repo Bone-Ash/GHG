@@ -53,9 +53,8 @@ public struct KeychainManager {
     ///
     /// - Author: GH
     public static func deleteToken() {
-        let keychain = KeychainSwift()
-        keychain.delete("AccessToken")
-        keychain.delete("RefreshToken")
+        KeychainSwift().delete("AccessToken")
+        KeychainSwift().delete("RefreshToken")
     }
     
     /// 保存 Device Token 至 Keychain

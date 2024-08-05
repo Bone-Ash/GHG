@@ -14,6 +14,8 @@ import SwiftUI
 ///   - spacing: 间距`default: 16`
 ///   - content: Content
 /// - Returns: LazyScrollView
+///
+/// - Author: GH
 public func LazyScrollView<Content: View>(
     showsIndicators: Bool = false,
     axis: Axis.Set = .vertical,

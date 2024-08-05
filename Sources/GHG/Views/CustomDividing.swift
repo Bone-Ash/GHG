@@ -1,5 +1,5 @@
 //
-//  CustomDivider.swift
+//  CustomDividing.swift
 //  Monut
 //
 //  Created by GH on 7/23/24.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// 带有文字的水平分割线
-public struct Divider: View {
+public struct CustomDividing: View {
     /// 分割线文本
     public var text: String = ""
     /// 是否使用填充

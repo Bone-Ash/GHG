@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-@preconcurrency
 public struct ShakeEffect: GeometryEffect {
     /// 震动的幅度
     public var amount: CGFloat = 10
@@ -35,7 +34,7 @@ public struct ShakeEffect: GeometryEffect {
     /// - Note: 只要在视图上加 `.modifier(ShakeEffect(animatableData: 变量))`，然后使用 `withAnimation` 改动这个变量，即可实现震动效果。
     ///
     /// - Author: GH
-    public func effectValue(size: CGSize) -> ProjectionTransform {
+    public nonisolated func effectValue(size: CGSize) -> ProjectionTransform {
         return ProjectionTransform(CGAffineTransform(translationX: amount * sin(animatableData * .pi * shakesPerUnit), y: 0))
     }
 }

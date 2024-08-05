@@ -8,6 +8,7 @@
 import Moya
 import Foundation
 
+@MainActor
 public extension MoyaProvider where Target == MultiTarget {
     /// 带超时处理和 Toast 显示的请求方法
     /// - Parameters:
@@ -17,10 +18,10 @@ public extension MoyaProvider where Target == MultiTarget {
     ///
     /// - Author: GH
     func moyaRequest(_ target: TargetType, showLoading: Bool = false, completion: @escaping (Result<Response, MoyaError>) -> Void) {
-        //        if showLoading { ToastManager.shared.loadingToast() }
+        if showLoading { ToastManager.shared.loadingToast() }
         
         self.request(MultiTarget(target)) { [weak self] result in
-            //            if showLoading { ToastManager.shared.hideLoadingToast() }
+            if showLoading { ToastManager.shared.hideLoadingToast() }
             
             guard let self = self else { return }
             
