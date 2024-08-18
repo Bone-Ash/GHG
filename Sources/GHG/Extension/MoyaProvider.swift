@@ -6,7 +6,9 @@
 //
 
 import Moya
+import SwiftyJSON
 import Foundation
+import ObjectMapper
 
 @MainActor
 public extension MoyaProvider where Target == MultiTarget {
@@ -37,6 +39,51 @@ public extension MoyaProvider where Target == MultiTarget {
                 }
                 
                 completion(.failure(error))
+            }
+        }
+    }
+    
+    func moyaRequest(_ target: TargetType, showLoading: Bool = false, successFeedback: Bool = false, failureFeedBack: Bool = false, successAction: @escaping (JSON) -> Void, failureAction: (() -> Void)? = nil) {
+        if showLoading { ToastManager.shared.loadingToast() }
+        
+        self.request(MultiTarget(target)) { result in
+            if showLoading { ToastManager.shared.hideLoadingToast() }
+            
+            switch result {
+            case .success(let response):
+                let json = JSON(response.data)
+                
+                if json["code"].stringValue == "0" {
+                    if successFeedback {
+                        Hap.success()
+                        ToastManager.shared.completeToast(title: json["message"].stringValue)
+                    }
+#if DEBUG
+                    print(json["message"].stringValue)
+#endif
+                    successAction(json["data"])
+                    
+                } else {
+                    if failureFeedBack {
+                        Hap.error()
+                        ToastManager.shared.errorToast(title: json["message"].stringValue)
+                    }
+#if DEBUG
+                    if !json["message"].stringValue.isEmpty {
+                        print("Error message: \n\(json["message"])")
+                    }
+#endif
+                    failureAction?()
+                }
+                
+            case .failure(let error):
+                if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? URLError, underlyingError.code == .timedOut {
+                    self.handleRequestTimeout()
+                } else {
+                    self.handleRequestError(error: error)
+                }
+                
+                failureAction?()
             }
         }
     }

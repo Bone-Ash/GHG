@@ -26,7 +26,7 @@ public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFe
     if json[key].stringValue == value {
         if successFeedback {
             Hap.success()
-//             ToastManager.shared.completeToast(title: json["message"].stringValue)
+            ToastManager.shared.completeToast(title: json["message"].stringValue)
         }
         
 #if DEBUG
@@ -35,14 +35,17 @@ public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFe
 #endif
         successAction(json["data"])
     } else {
-        if failureFeedBack { Hap.error() }
+        if failureFeedBack {
+            Hap.error()
+            // 显示错误的 Toast
+            ToastManager.shared.errorToast(title: json["message"].stringValue)
+        }
+        
 #if DEBUG
         if !json["message"].stringValue.isEmpty {
             print("Error message: \n\(json["message"])")
         }
 #endif
-        // 显示错误的 Toast
-         ToastManager.shared.errorToast(title: json["message"].stringValue)
         failureAction?()
     }
 }
