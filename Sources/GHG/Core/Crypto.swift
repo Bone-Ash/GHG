@@ -92,7 +92,7 @@ public struct CryptoManager {
     ///
     /// - Author: GH
     public static func encrypt(data: Data, with publicKey: SecKey) -> Data? {
-        let algorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA1
+        let algorithm: SecKeyAlgorithm = .rsaEncryptionOAEPSHA256
         
         // 检查公钥是否支持所选算法
         guard SecKeyIsAlgorithmSupported(publicKey, .encrypt, algorithm) else {

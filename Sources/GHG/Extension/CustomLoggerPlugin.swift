@@ -18,7 +18,7 @@ public final class CustomLoggerPlugin: PluginType {
             print("----Request Start----")
             print("Request URL:")
             print(httpRequest.url?.absoluteString ?? "nil")
-            print("Method:" + (httpRequest.httpMethod ?? "nil"))
+            print("Method: " + (httpRequest.httpMethod ?? "nil"))
             print("Headers:")
             print(httpRequest.allHTTPHeaderFields ?? "nil")
             

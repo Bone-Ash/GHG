@@ -1,6 +1,6 @@
 //
-//  PhoneEmailValid.swift
-//  
+//  StringValid.swift
+//
 //
 //  Created by GH on 7/23/24.
 //
@@ -26,5 +26,15 @@ public extension String {
         let phoneRegEx = "^\\d{11}$"
         let phoneTest = NSPredicate(format: "SELF MATCHES %@", phoneRegEx)
         return phoneTest.evaluate(with: self)
+    }
+    
+    /// 验证 ID 是否只包含字母、数字和中划线
+    /// - Returns: 是否符合条件(Bool)
+    ///
+    /// - Author: GH
+    func isValidChannelId() -> Bool {
+        let channelIdRegEx = "^[a-z0-9-]+$"
+        let channelIdTest = NSPredicate(format: "SELF MATCHES %@", channelIdRegEx)
+        return channelIdTest.evaluate(with: self)
     }
 }

@@ -17,8 +17,9 @@ import SwiftyJSON
 ///   - failureAction: 当 JSON 中的指定字段值不符合预期条件时执行的可选闭包
 ///
 /// - Author: GH
-@MainActor public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFeedBack: Bool = false, successAction: (_ data: JSON) -> Void, failureAction: (() -> Void)? = nil) {
-    let condition = ["code": "200"]
+@MainActor
+public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFeedBack: Bool = false, successAction: (_ data: JSON) -> Void, failureAction: (() -> Void)? = nil) {
+    let condition = ["code": "0"]
     let key = condition.keys.first!
     let value = condition.values.first!
     
@@ -27,7 +28,11 @@ import SwiftyJSON
             Hap.success()
 //             ToastManager.shared.completeToast(title: json["message"].stringValue)
         }
-
+        
+#if DEBUG
+        print(json["message"].stringValue)
+//        print("Result: " + json["data"].stringValue)
+#endif
         successAction(json["data"])
     } else {
         if failureFeedBack { Hap.error() }
