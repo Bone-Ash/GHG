@@ -34,4 +34,5 @@ public func LazyScrollView<Content: View>(
             }
         }
     }
+    .scrollDismissesKeyboard(.automatic)
 }
