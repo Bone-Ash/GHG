@@ -9,6 +9,10 @@ import Moya
 import SwiftyJSON
 import Foundation
 
+import Moya
+import SwiftyJSON
+import Foundation
+
 public final class CustomLoggerPlugin: PluginType {
     public init() {}
     
@@ -18,13 +22,13 @@ public final class CustomLoggerPlugin: PluginType {
             print("----Request Start----")
             print("Request URL:")
             print(httpRequest.url?.absoluteString ?? "nil")
-            print("Method: " + (httpRequest.httpMethod ?? "nil"))
+            print("Method:   " + (httpRequest.httpMethod ?? "nil"))
             print("Headers:")
             print(httpRequest.allHTTPHeaderFields ?? "nil")
             
             if let body = httpRequest.httpBody {
                 print("Request Body:")
-                print(formatJSONData(body) ?? "nil")
+                print(formatJSON(body) ?? "nil")
             }
         }
 #endif
@@ -39,7 +43,7 @@ public final class CustomLoggerPlugin: PluginType {
             
             if !response.data.isEmpty {
                 print("Response Body:")
-                print(formatJSONData(response.data) ?? "nil")
+                print(JSON(response.data)["data"])
             }
             
         case .failure(let error):
@@ -50,7 +54,7 @@ public final class CustomLoggerPlugin: PluginType {
 #endif
     }
     
-    private func formatJSONData(_ data: Data) -> String? {
+    private func formatJSON(_ data: Data) -> String? {
         let json = try? JSON(data: data)
         return json?.rawString(options: .prettyPrinted)
     }

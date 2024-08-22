@@ -6,9 +6,8 @@
 //
 
 import Moya
-import SwiftyJSON
 import Foundation
-import ObjectMapper
+import SwiftyJSON
 
 @MainActor
 public extension MoyaProvider where Target == MultiTarget {
@@ -30,7 +29,11 @@ public extension MoyaProvider where Target == MultiTarget {
             switch result {
             case .success(let response):
                 completion(.success(response))
-                
+#if DEBUG
+                // TODO: 后续可删除
+                                let json = JSON(response.data)
+                                print(json)
+#endif
             case .failure(let error):
                 if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? URLError, underlyingError.code == .timedOut {
                     self.handleRequestTimeout()
@@ -58,9 +61,7 @@ public extension MoyaProvider where Target == MultiTarget {
                         Hap.success()
                         ToastManager.shared.completeToast(title: json["message"].stringValue)
                     }
-#if DEBUG
-                    print(json["message"].stringValue)
-#endif
+                    
                     successAction(json["data"])
                     
                 } else {

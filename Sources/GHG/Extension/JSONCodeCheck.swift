@@ -29,23 +29,18 @@ public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFe
             ToastManager.shared.completeToast(title: json["message"].stringValue)
         }
         
-#if DEBUG
-        print(json["message"].stringValue)
-//        print("Result: " + json["data"].stringValue)
-#endif
         successAction(json["data"])
     } else {
         if failureFeedBack {
             Hap.error()
             // 显示错误的 Toast
             ToastManager.shared.errorToast(title: json["message"].stringValue)
+            failureAction?()
         }
-        
 #if DEBUG
         if !json["message"].stringValue.isEmpty {
             print("Error message: \n\(json["message"])")
         }
 #endif
-        failureAction?()
     }
 }

@@ -32,6 +32,7 @@ public func LazyScrollView<Content: View>(
             LazyVStack(spacing: spacing) {
                 content()
             }
+            .padding(.vertical)
         }
     }
     .scrollDismissesKeyboard(.automatic)

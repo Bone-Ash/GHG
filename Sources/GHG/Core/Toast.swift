@@ -64,7 +64,7 @@ public class ToastManager {
     public func HUDToast(successful: Bool = true, title: String, subTitle: String? = nil) {
         self.hud = AlertToast(
             displayMode: .hud,
-            type: successful ? .complete(.green) : .error(.red),
+            type: successful ? .complete(.green) : .regular,
             title: title,
             subTitle: subTitle
         )

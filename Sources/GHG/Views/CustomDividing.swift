@@ -28,7 +28,7 @@ public struct CustomDividing: View {
     public var body: some View {
         HStack(spacing: 16) {
             Rectangle()
-                .fill(.quaternary)
+                .fill(.quaternary.opacity(0.5))
             
             // 如果 text 非空，则显示文本并在文本两侧绘制分割线
             if !text.isEmpty {
@@ -38,7 +38,7 @@ public struct CustomDividing: View {
                     .fontWeight(.semibold)
                 
                 Rectangle()
-                    .fill(.quaternary)
+                    .fill(.quaternary.opacity(0.5))
             }
         }
         .frame(maxWidth: .infinity, maxHeight: 2)
