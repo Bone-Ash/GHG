@@ -15,9 +15,9 @@ struct RaisedShadowModifier: ViewModifier {
         case .light:
             return Color(white: 0.333).opacity(0.1)
         case .dark:
-            return Color(white: 0.666).opacity(0.2)
+            return Color(white: 1).opacity(0.5)
         @unknown default:
-            return Color(white: 0.333).opacity(0.1)
+            return Color(white: 0.7).opacity(0.1)
         }
     }
     

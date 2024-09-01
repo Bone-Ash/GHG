@@ -31,8 +31,8 @@ public extension MoyaProvider where Target == MultiTarget {
                 completion(.success(response))
 #if DEBUG
                 // TODO: 后续可删除
-                                let json = JSON(response.data)
-                                print(json)
+                let json = JSON(response.data)
+                print(json)
 #endif
             case .failure(let error):
                 if let underlyingError = (error as NSError).userInfo[NSUnderlyingErrorKey] as? URLError, underlyingError.code == .timedOut {
@@ -46,6 +46,16 @@ public extension MoyaProvider where Target == MultiTarget {
         }
     }
     
+    /// 异步请求
+    /// - Parameters:
+    ///   - target: 请求接口
+    ///   - showLoading: 是否显示 Loading
+    ///   - successFeedback: 是否在成功时显示反馈
+    ///   - failureFeedBack: 是否在失败时显示反馈
+    ///   - successAction: 请求成功后的处理闭包
+    ///   - failureAction: 请求失败后的处理闭包
+    ///
+    /// - Author: GH
     func moyaRequest(_ target: TargetType, showLoading: Bool = false, successFeedback: Bool = false, failureFeedBack: Bool = false, successAction: @escaping (JSON) -> Void, failureAction: (() -> Void)? = nil) {
         if showLoading { ToastManager.shared.loadingToast() }
         
@@ -107,5 +117,27 @@ public extension MoyaProvider where Target == MultiTarget {
             // ToastManager.shared.errorToast(title: "Request Failed", subTitle: error.localizedDescription)
             NetworkManager.shared.releaseResources()
         }
+    }
+}
+
+struct CustomTarget: TargetType {
+    let base: TargetType
+    let additionalHeaders: [String: String]
+    
+    var baseURL: URL { base.baseURL }
+    var path: String { base.path }
+    var method: Moya.Method { base.method }
+    var sampleData: Data { base.sampleData }
+    var task: Task { base.task }
+    var headers: [String: String]? {
+        var headers = base.headers ?? [:]
+        additionalHeaders.forEach { headers[$0] = $1 }
+        return headers
+    }
+}
+
+extension TargetType {
+    func withAdditionalHeaders(_ additionalHeaders: [String: String]) -> CustomTarget {
+        return CustomTarget(base: self, additionalHeaders: additionalHeaders)
     }
 }

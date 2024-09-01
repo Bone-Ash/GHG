@@ -20,6 +20,9 @@ public func LazyScrollView<Content: View>(
     showsIndicators: Bool = false,
     axis: Axis.Set = .vertical,
     spacing: CGFloat = 16,
+    padding: CGFloat = 16,
+    scrollClipDisabled: Bool = true,
+    scrollTargetLayout: Bool = false,
     @ViewBuilder content: @escaping () -> Content
 ) -> some View {
     ScrollView(axis, showsIndicators: showsIndicators) {
@@ -27,13 +30,16 @@ public func LazyScrollView<Content: View>(
             LazyHStack(spacing: spacing) {
                 content()
             }
-            .padding(.horizontal)
+            .padding(.horizontal, padding)
+            .scrollTargetLayout(isEnabled: scrollTargetLayout)
         } else {
             LazyVStack(spacing: spacing) {
                 content()
             }
-            .padding(.vertical)
+            .padding(.vertical, padding)
+            .scrollTargetLayout(isEnabled: scrollTargetLayout)
         }
     }
     .scrollDismissesKeyboard(.automatic)
+    .scrollClipDisabled(scrollClipDisabled)
 }

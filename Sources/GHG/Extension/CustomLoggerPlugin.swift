@@ -22,7 +22,7 @@ public final class CustomLoggerPlugin: PluginType {
             print("----Request Start----")
             print("Request URL:")
             print(httpRequest.url?.absoluteString ?? "nil")
-            print("Method:   " + (httpRequest.httpMethod ?? "nil"))
+            print("Method: " + (httpRequest.httpMethod ?? "nil"))
             print("Headers:")
             print(httpRequest.allHTTPHeaderFields ?? "nil")
             
@@ -43,7 +43,7 @@ public final class CustomLoggerPlugin: PluginType {
             
             if !response.data.isEmpty {
                 print("Response Body:")
-                print(JSON(response.data)["data"])
+                print(JSON(response.data))
             }
             
         case .failure(let error):

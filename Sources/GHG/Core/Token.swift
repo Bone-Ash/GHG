@@ -5,99 +5,73 @@
 //  Created by GH on 7/23/24.
 //
 
-
 import Foundation
-import SwiftyJSON
 
+/// `TokenManager` 负责管理和刷新应用的访问令牌
 public actor TokenManager {
-    public static let shared = TokenManager()
+    /// 全局并发队列，用于同步访问 Token
+    private static let tokenQueue = DispatchQueue(label: "com.token.manager.queue", attributes: .concurrent)
     
-    /// 初始化时，将 Keychain 的 Token 取出
-    private init() {
-        self.accessToken = KeychainManager.getAccessTokenFromKeychain()
-    }
+    /// 当前的访问令牌，初始化时从 Keychain 中获取
+    private static var accessToken: String? = KeychainManager.getAccessTokenFromKeychain()
     
-    /// Token
-    private var accessToken: String?
-    /// 标记是否进入刷新流程
-    private var isRefreshing = false
+    /// 标记是否正在刷新 Token，避免并发刷新
+    private static var isRefreshing = false
     
-    /// 挂起的请求
-    private var pendingRequests: [CheckedContinuation<String?, Never>] = []
-    
-    //    /// 提供一个同步方法来获取当前 Token
-    //    /// - Returns: 当前有效的 Token
-    //    ///
-    //    /// - Author: GH
-    //    public static func getTokenSync() -> String? {
-    //        let semaphore = DispatchSemaphore(value: 0)
-    //        var result: String?
-    //
-    //        Task {
-    //            result = await shared.currentToken()
-    //            semaphore.signal()
-    //        }
-    //
-    //        semaphore.wait()
-    //        return result
-    //    }
-    
-    /// 对外提供的异步函数
-    /// - Returns: 当前有效的 Token
+    /// 获取当前有效的 Token。
+    /// - Returns: 当前有效的 Token，如果不存在则尝试刷新并返回新 Token。
     ///
     /// - Author: GH
-    public func currentToken() async -> String? {
-        if let token = accessToken, !isRefreshing {
-            // 如果 Token 已存在且不在刷新状态，则直接返回当前 Token
-            return token
-        } else {
-            // 如果没有有效 Token 或没有在刷新状态刷新，则触发 Token 刷新流程
-            return await refreshTokenIfNeeded()
+    public static func currentToken() -> String? {
+        return tokenQueue.sync {
+            if !isRefreshing {
+                // 如果 Token 已存在且不在刷新状态，则直接返回当前 Token
+                return accessToken
+            } else {
+                // 如果正在刷新，等待刷新完成后返回新 Token
+                return refreshTokenIfNeeded()
+            }
         }
     }
     
-    /// 检查是否需要刷新 Token，并根据需要启动刷新流程
-    /// - Returns: 新 Token(String)
+    /// 检查是否需要刷新 Token，并根据需要启动刷新流程。
+    /// - Returns: 新 Token (String) 或现有 Token。
     ///
     /// - Author: GH
-    private func refreshTokenIfNeeded() async -> String? {
-        if isRefreshing {
-            return await withCheckedContinuation { continuation in
-                pendingRequests.append(continuation)
+    private static func refreshTokenIfNeeded() -> String? {
+        return tokenQueue.sync(flags: .barrier) {
+            if isRefreshing {
+                // 如果正在刷新 Token，则等待刷新完成后返回新 Token
+                return accessToken
+            } else {
+                // 标记开始刷新 Token
+                isRefreshing = true
+                
+                // 执行 Token 刷新操作
+                let newToken = refreshToken()
+                accessToken = newToken
+                
+                // 标记刷新完成
+                isRefreshing = false
+                return newToken
             }
-        } else {
-            // 标记开始刷新 Token
-            isRefreshing = true
-            
-            // 执行 Token 刷新操作
-            let newToken = await refreshToken()
-            accessToken = newToken
-            
-            // 通知所有等待的请求
-            for continuation in pendingRequests {
-                continuation.resume(returning: newToken)
-            }
-            pendingRequests.removeAll()
-            
-            // 更新 Token 并标记刷新完成
-            isRefreshing = false
-            return newToken
         }
     }
     
-    /// Token 刷新
-    /// - Returns: 新 Token
+    /// 同步刷新 Token 的实现。
+    /// - Returns: 新生成的 Token。
     ///
     /// - Author: GH
-    private func refreshToken() async -> String {
-        // Token 刷新的实现代码
-        return ""
+    private static func refreshToken() -> String {
+        // 实际的 Token 刷新逻辑
+        return "new_token_string"
     }
     
-    /// 发送 Device Token 至后端
+    /// 绑定 Device Token 至后端服务器。
+    /// - Parameter token: 需要绑定的 Device Token。
     ///
     /// - Author: GH
-    public func bindingDeviceToken(_ token: String) {
-        
+    public static func bindingDeviceToken(_ token: String) {
+        // 实现绑定 Device Token 的逻辑
     }
 }
