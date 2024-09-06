@@ -16,8 +16,7 @@ public struct KeychainManager {
     public static func saveAccessTokenToKeychain(_ accessToken: String) {
         KeychainSwift().set(accessToken, forKey: "AccessToken")
 #if DEBUG
-        print("Access Token: \(accessToken)")
-        print("---Saved successfully!---")
+//        print("Access Token: \(accessToken)")
 #endif
     }
     
@@ -28,8 +27,8 @@ public struct KeychainManager {
     public static func saveRefreshTokenToKeychain(_ refreshToken: String) {
         KeychainSwift().set(refreshToken, forKey: "RefreshToken")
 #if DEBUG
-        print("Refresh Token: \(refreshToken)")
-        print("---Saved successfully!---")
+//        print("Refresh Token: \(refreshToken)")
+//        print("---Saved successfully!---")
 #endif
     }
     

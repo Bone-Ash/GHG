@@ -19,8 +19,8 @@ import SwiftUI
 public func LazyScrollView<Content: View>(
     showsIndicators: Bool = false,
     axis: Axis.Set = .vertical,
-    spacing: CGFloat = 16,
-    padding: CGFloat = 16,
+    spacing: CGFloat = 20,
+    padding: CGFloat = 20,
     scrollClipDisabled: Bool = true,
     scrollTargetLayout: Bool = false,
     @ViewBuilder content: @escaping () -> Content
