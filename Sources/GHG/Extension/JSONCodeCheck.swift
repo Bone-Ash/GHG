@@ -19,11 +19,7 @@ import SwiftyJSON
 /// - Author: GH
 @MainActor
 public func jsonCodeCheck(_ json: JSON, successFeedback: Bool = false, failureFeedBack: Bool = false, successAction: (_ data: JSON) -> Void, failureAction: (() -> Void)? = nil) {
-    let condition = ["code": "0"]
-    let key = condition.keys.first!
-    let value = condition.values.first!
-    
-    if json[key].stringValue == value {
+    if json["code"].intValue == 200 {
         if successFeedback {
             Hap.success()
             ToastManager.shared.completeToast(title: json["message"].stringValue)

@@ -66,7 +66,7 @@ public extension MoyaProvider where Target == MultiTarget {
             case .success(let response):
                 let json = JSON(response.data)
                 
-                if json["code"].stringValue == "0" {
+                if json["code"].intValue == 200 {
                     if successFeedback {
                         Hap.success()
                         ToastManager.shared.completeToast(title: json["message"].stringValue)
@@ -120,24 +120,25 @@ public extension MoyaProvider where Target == MultiTarget {
     }
 }
 
-struct CustomTarget: TargetType {
-    let base: TargetType
-    let additionalHeaders: [String: String]
-    
-    var baseURL: URL { base.baseURL }
-    var path: String { base.path }
-    var method: Moya.Method { base.method }
-    var sampleData: Data { base.sampleData }
-    var task: Task { base.task }
-    var headers: [String: String]? {
-        var headers = base.headers ?? [:]
-        additionalHeaders.forEach { headers[$0] = $1 }
-        return headers
-    }
-}
-
-extension TargetType {
-    func withAdditionalHeaders(_ additionalHeaders: [String: String]) -> CustomTarget {
-        return CustomTarget(base: self, additionalHeaders: additionalHeaders)
-    }
-}
+//
+//struct CustomTarget: TargetType {
+//    let base: TargetType
+//    let additionalHeaders: [String: String]
+//
+//    var baseURL: URL { base.baseURL }
+//    var path: String { base.path }
+//    var method: Moya.Method { base.method }
+//    var sampleData: Data { base.sampleData }
+//    var task: Task { base.task }
+//    var headers: [String: String]? {
+//        var headers = base.headers ?? [:]
+//        additionalHeaders.forEach { headers[$0] = $1 }
+//        return headers
+//    }
+//}
+//
+//extension TargetType {
+//    func withAdditionalHeaders(_ additionalHeaders: [String: String]) -> CustomTarget {
+//        return CustomTarget(base: self, additionalHeaders: additionalHeaders)
+//    }
+//}

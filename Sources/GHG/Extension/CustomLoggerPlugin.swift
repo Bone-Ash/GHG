@@ -9,10 +9,6 @@ import Moya
 import SwiftyJSON
 import Foundation
 
-import Moya
-import SwiftyJSON
-import Foundation
-
 public final class CustomLoggerPlugin: PluginType {
     public init() {}
     
