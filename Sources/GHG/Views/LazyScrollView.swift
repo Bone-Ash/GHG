@@ -40,6 +40,6 @@ public func LazyScrollView<Content: View>(
             .scrollTargetLayout(isEnabled: scrollTargetLayout)
         }
     }
-    .scrollDismissesKeyboard(.automatic)
+    .scrollDismissesKeyboard(.immediately)
     .scrollClipDisabled(scrollClipDisabled)
 }
